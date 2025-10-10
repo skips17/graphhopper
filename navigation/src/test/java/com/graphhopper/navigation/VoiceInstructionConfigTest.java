@@ -1,7 +1,6 @@
 package com.graphhopper.navigation;
 import com.github.javafaker.Faker;
 import com.graphhopper.util.TranslationMap;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import java.util.Random;
 import java.util.Locale;
@@ -213,7 +212,6 @@ public class VoiceInstructionConfigTest {
         assertEquals(expectedSpokenDistance, values.spokenDistance);
         assertEquals(expectedInstruction, values.turnDescription);
     }
-
         @Test
         void TestStreetConditionalDistance() {
         Faker faker = new Faker(new Random(42));
