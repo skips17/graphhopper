@@ -532,7 +532,7 @@ Cette inversion change la logique :
 - steps=true → erreur levée (refus).
 
 ### 4. Avant le nouveau test
-<img title="title"  src="mutation/NavigationTestMutationsAvant.png">
+<img title="title"  src="mutation/NavigationTestMutationAvant.png">
 
 Avant le nouveau test, ce chemin n’était pas couvert : la ligne if (!enableInstructions) indiquait NO_COVERAGE.
 Le mutant survivait car aucun test n’appelait doGet avec steps=false en vérifiant l’exception.
