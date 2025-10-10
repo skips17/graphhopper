@@ -1,11 +1,11 @@
 package com.graphhopper.navigation;
-
+import static org.junit.jupiter.api.Assertions.*;
 import com.graphhopper.GraphHopper;
 import com.graphhopper.config.Profile;
 import com.graphhopper.routing.util.TransportationMode;
 import org.junit.jupiter.api.Test;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class DistanceConfigTest {
 
@@ -41,5 +41,27 @@ public class DistanceConfigTest {
         DistanceConfig biking = new DistanceConfig(DistanceUtils.Unit.METRIC, null, null, "biking");
         assertEquals(1, biking.voiceInstructions.size());
     }
+    @Test
+    void TestConfigImperialCar() {
+        DistanceConfig dc = new DistanceConfig(DistanceUtils.Unit.IMPERIAL, null, null, "driving");
+        assertEquals(4, dc.voiceInstructions.size());
+        assertTrue(dc.voiceInstructions.get(0) instanceof InitialVoiceInstructionConfig);
+        assertTrue(dc.voiceInstructions.get(1) instanceof FixedDistanceVoiceInstructionConfig);
+        assertTrue(dc.voiceInstructions.get(2) instanceof FixedDistanceVoiceInstructionConfig);
+        assertTrue(dc.voiceInstructions.get(3) instanceof ConditionalDistanceVoiceInstructionConfig);
+    }
+    @Test
+    void TestConfigMetriclWalking() {
+        DistanceConfig dc = new DistanceConfig(DistanceUtils.Unit.METRIC, null, null, TransportationMode.FOOT);
+        assertEquals(1, dc.voiceInstructions.size());
+        assertTrue(dc.voiceInstructions.get(0) instanceof ConditionalDistanceVoiceInstructionConfig);
+    }
+    @Test
+    void TestConfigImperialCycling() {
+        DistanceConfig dc = new DistanceConfig(DistanceUtils.Unit.IMPERIAL, null, null, TransportationMode.BIKE);
+        assertEquals(1, dc.voiceInstructions.size());
+        assertTrue(dc.voiceInstructions.get(0) instanceof ConditionalDistanceVoiceInstructionConfig);
+    }
+
 
 }
