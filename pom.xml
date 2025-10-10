@@ -13,6 +13,8 @@
     <description>Super pom of GraphHopper, the fast and flexible routing engine</description>
 
     <properties>
+    <surefireArgLine></surefireArgLine>
+
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
@@ -170,6 +172,12 @@
             <artifactId>junit-jupiter-params</artifactId>
             <scope>test</scope>
         </dependency>
+    <dependency>
+        <groupId>com.github.javafaker</groupId>
+        <artifactId>javafaker</artifactId>
+        <version>1.0.2</version>
+        <scope>test</scope>
+    </dependency>
     </dependencies>
     <build>
         <pluginManagement>
@@ -194,7 +202,7 @@
                     <artifactId>maven-surefire-plugin</artifactId>
                     <version>2.22.2</version>
                     <configuration>
-                        <argLine>@{argLine} -Xmx190m -Xms190m -Duser.language=en</argLine>
+                    <argLine>${surefireArgLine} -Xmx190m -Xms190m -Duser.language=en</argLine>
                     </configuration>
                 </plugin>
 
@@ -275,25 +283,56 @@
                 </configuration>
             </plugin>
             <plugin>
-                <groupId>org.jacoco</groupId>
-                <artifactId>jacoco-maven-plugin</artifactId>
-                <version>0.8.13</version>
-                <executions>
-                    <execution>
-                        <id>prepare-agent</id>
-                        <goals>
-                            <goal>prepare-agent</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>report</id>
-                        <phase>test</phase>
-                        <goals>
-                            <goal>report</goal>
-                        </goals>
-                    </execution>
-                </executions>
+            <groupId>org.jacoco</groupId>
+            <artifactId>jacoco-maven-plugin</artifactId>
+            <version>0.8.13</version>
+            <configuration>
+                <propertyName>surefireArgLine</propertyName>
+            </configuration>
+            <executions>
+                <execution>
+                <id>prepare-agent</id>
+                <goals>
+                    <goal>prepare-agent</goal>
+                </goals>
+                </execution>
+                <execution>
+                <id>report</id>
+                <phase>test</phase>
+                <goals>
+                    <goal>report</goal>
+                </goals>
+                </execution>
+            </executions>
             </plugin>
+            <plugin>
+            <groupId>org.pitest</groupId>
+            <artifactId>pitest-maven</artifactId>
+            <version>1.15.8</version>
+            <dependencies>
+                <dependency>
+                <groupId>org.pitest</groupId>
+                <artifactId>pitest-junit5-plugin</artifactId>
+                <version>1.2.1</version>
+                </dependency>
+            </dependencies>
+            <configuration>
+                <testPlugin>junit5</testPlugin>
+                <targetClasses>
+                    <param>com.graphhopper.navigation.*</param>
+                </targetClasses>
+                <targetTests>
+                    <param>com.graphhopper.navigation.*Test</param>
+                </targetTests>
+                <threads>4</threads>
+                <outputFormats>
+                    <param>HTML</param>
+                    <param>XML</param>
+                </outputFormats>
+            </configuration>
+
+            </plugin>
+
         </plugins>
     </build>
 
@@ -305,7 +344,6 @@
         </repository>
     </distributionManagement>
 
-    <!-- mvn clean deploy -P release -->
     <profiles>
         <profile>
             <id>release</id>
