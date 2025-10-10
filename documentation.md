@@ -615,3 +615,7 @@ Ces valeurs ont été choisies pour représenter les trois situations possibles 
 Dans la version mutée (>=), le cas 4250 serait accepté à tort, ce qui ferait échouer ce test.
 Le nouveau test cible la valeur 4250 dans laquelle la mutation fait la différence. Dans le code original, 4250 ne donne rien (null), mais dans le mutant il donne un résultat non-null. Le test permet donc de montrer cette différence et de détecter le mutant.  
 Ainsi le nouveau test garantit que la condition reste strictement supérieure (`>`), ce qui préserve le comportement attendu :l’instruction vocale ne doit être donnée que lorsque la distance dépasse strictement le seuil configuré.
+
+###  Apres le nouveau test
+<img title="title"  src="mutation/TestVoiceApres.jpg">
+
