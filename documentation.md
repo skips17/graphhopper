@@ -447,12 +447,12 @@ Cet élément doit être une instance de ConditionalDistanceVoiceInstructionConf
 ## 🔸 Analyse des mutations (Avant et après)
 ### Avant
 
-<img title="title"  src="mutation/ScoreMutationAvantTest1">
-<img title="title"  src="mutation/ScoreMutationAvantTest2">
+<img title="title"  src="mutation/ScoreMutationAvantTest1.jpg">
+<img title="title"  src="mutation/ScoreMutationAvantTest2.jpg">
 
 ### Après
-<img title="title"  src="mutation/ScoreMutationApresTest1">
-<img title="title"  src="mutation/ScoreMutationApresTest2">
+<img title="title"  src="mutation/ScoreMutationApresTest1.jpg">
+<img title="title"  src="mutation/ScoreMutationApresTest2.jpg">
 
 ## 🔸 Analyse du mutant — *NavigateResource.java*
 
@@ -485,12 +485,12 @@ Cette inversion change la logique :
 - steps=true → erreur levée (refus).
 
 ### 4. Avant le nouveau test
-<img title="title"  src="mutation/NavigationTestMutatoinsAvant">
+<img title="title"  src="mutation/NavigationTestMutatoinsAvant.jpg">
 
 Avant le nouveau test, ce chemin n’était pas couvert : la ligne if (!enableInstructions) indiquait NO_COVERAGE.
 Le mutant survivait car aucun test n’appelait doGet avec steps=false en vérifiant l’exception.
 ### 5. Apres le nouveau test
-<img title="title"  src="mutation/NavigationTestMutationApres">
+<img title="title"  src="mutation/NavigationTestMutationApres.jpg">
 
 ```java
     @Test
