@@ -1,5 +1,52 @@
 # Documentation tâche 2
 ### Nom du test
+TestConfigImperialCar
+
+### Intention du test
+Ce test vérifie le comportement du constructeur de la classe :
+```java
+DistanceConfig(DistanceUtils.Unit unit, TranslationMap translationMap, Locale locale, String mode)
+```
+appelé avec les paramètres suivants :
+unit = DistanceUtils.Unit.IMPERIAL,
+translationMap = null,
+locale = null,
+mode = "driving".
+L’objectif est de s’assurer que, lorsqu’une configuration de navigation est créée pour le mode voiture avec le système impérial (miles, feet), le constructeur initialise correctement les quatre instructions vocales attendues pour la conduite automobile.
+Ces instructions sont censées couvrir les différents moments d’une navigation :
+instruction initiale au départ,
+deux instructions à des distances fixes,
+et une instruction conditionnelle à l’approche d’un virage.
+
+### Données
+Les données du test ont été choisies pour isoler la logique liée au mode de transport et à l’unité de mesure :
+Le mode "driving" est utilisé pour cibler la configuration automobile.
+L’unité IMPERIAL permet de vérifier la compatibilité avec les systèmes utilisant des miles et des feet.
+Les valeurs null pour translationMap et locale garantissent que le test ne dépend d’aucune configuration linguistique.
+Ce choix permet de valider uniquement la structure des instructions vocales générées par le constructeur.
+## Oracle
+Après l’instanciation suivante :
+```java
+DistanceConfig dc = new DistanceConfig(DistanceUtils.Unit.IMPERIAL, null, null, "driving");
+```
+Le test vérifie:
+```java
+assertEquals(4, dc.voiceInstructions.size());
+assertTrue(dc.voiceInstructions.get(0) instanceof InitialVoiceInstructionConfig);
+assertTrue(dc.voiceInstructions.get(1) instanceof FixedDistanceVoiceInstructionConfig);
+assertTrue(dc.voiceInstructions.get(2) instanceof FixedDistanceVoiceInstructionConfig);
+assertTrue(dc.voiceInstructions.get(3) instanceof ConditionalDistanceVoiceInstructionConfig);
+```
+Résultat attendu du test :
+La liste voiceInstructions doit contenir exactement 4 éléments.
+Ces éléments doivent correspondre respectivement à :
+Une instruction initiale (InitialVoiceInstructionConfig) — au début du trajet.
+Une première instruction à distance fixe (FixedDistanceVoiceInstructionConfig).
+Une deuxième instruction à distance fixe (FixedDistanceVoiceInstructionConfig).
+Une instruction conditionnelle (ConditionalDistanceVoiceInstructionConfig).
+Le test est réussi si la liste d’instructions respecte exactement cet ordre et ces types.
+Cela confirme que le constructeur DistanceConfig gère correctement le mode de transport "driving" sous unités impériales, en générant une séquence complète d’instructions vocales adaptées à la conduite en voiture.
+### Nom du test
 
 TestConfigMetriclWalking
 
