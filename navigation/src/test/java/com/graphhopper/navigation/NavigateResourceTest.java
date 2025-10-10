@@ -1,5 +1,4 @@
 package com.graphhopper.navigation;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import com.graphhopper.GraphHopperConfig;
 import com.graphhopper.util.TranslationMap;
@@ -32,7 +31,7 @@ public class NavigateResourceTest {
     void TestGetBearingErreurNonNumeric() {
         assertThrows(IllegalArgumentException.class, () -> NavigateResource.getBearing("abc,1"));
     }
-     
+    
     @Test
     void TestGetBearingParseWithNaN() {
         var b = NavigateResource.getBearing("100,1;;200,1;");
@@ -42,7 +41,7 @@ public class NavigateResourceTest {
         assertEquals(200d, b.get(2), 0.1);
         assertTrue(Double.isNaN(b.get(3)));
     }
-     
+    
     @Test
     void TestDoGetStepsDesactive() {
         NavigateResource res = new NavigateResource(null, new TranslationMap(), new GraphHopperConfig());
@@ -63,7 +62,4 @@ public class NavigateResourceTest {
             )
         );
     }
-
-
-
 }
