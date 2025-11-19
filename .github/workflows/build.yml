@@ -68,7 +68,7 @@ jobs:
         if: ${{ steps.score_mutation.outputs.valeur >= steps.score_precedent.outputs.valeur }}
         run: |
           echo "${{ steps.score_mutation.outputs.valeur }}" > .github/mutation_score.txt
-
       - name: Rickroll
         if: failure()
-        uses: sthima/random-rickroll@v1.0
+        uses: sanketsingh24/rickroll-action@v1
+
