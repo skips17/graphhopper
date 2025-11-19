@@ -70,5 +70,7 @@ jobs:
           echo "${{ steps.score_mutation.outputs.valeur }}" > .github/mutation_score.txt
       - name: Rickroll
         if: failure()
-        uses: sanketsingh24/rickroll-action@v1
+        run: |
+          echo "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+
 
