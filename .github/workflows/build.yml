@@ -53,6 +53,10 @@ jobs:
           echo "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
           exit 1
 
+      - name: Installer_artefacts_pour_PIT
+        if: steps.build_tests.outcome == 'success' && matrix.java-version == '24'
+        run: mvn -B -DskipTests install
+
       - name: PIT_navigation
         id: pit_navigation
         if: steps.build_tests.outcome == 'success' && matrix.java-version == '24'
