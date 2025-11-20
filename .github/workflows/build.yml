@@ -59,8 +59,8 @@ jobs:
 
       - name: PIT_navigation
         id: pit_navigation
-        if: steps.build_tests.outcome == 'success' && matrix.java-version == '24'
-        run: mvn -q -DargLine="" -pl navigation org.pitest:pitest-maven:mutationCoverage
+        if: steps.build_install.outcome == 'success' && matrix.java-version == '24'
+        run: mvn -q -Djacoco.skip=true -pl navigation org.pitest:pitest-maven:mutationCoverage
 
       - name: ExtraireScoreMutation
         id: score_mutation
