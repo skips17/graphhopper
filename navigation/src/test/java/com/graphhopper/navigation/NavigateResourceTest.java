@@ -62,4 +62,9 @@ public class NavigateResourceTest {
             )
         );
     }
+    @Test
+    void testErreur() {
+        assertEquals(1, 2);
+    }
+
 }
