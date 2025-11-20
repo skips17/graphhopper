@@ -22,6 +22,7 @@
              switched to another JDK on travis it was enabled implicitly. Our javadocs are not ready for this
              so we disable it explicitly now -->
         <doclint>none</doclint>
+        <jacoco.skip>false</jacoco.skip>
     </properties>
 
     <scm>
@@ -200,9 +201,10 @@
                     <artifactId>maven-surefire-plugin</artifactId>
                     <version>2.22.2</version>
                     <configuration>
-                        <argLine>@{argLine} -Xmx190m -Xms190m -Duser.language=en</argLine>
+                        <argLine>${argLine} -Xmx190m -Xms190m -Duser.language=en</argLine>
                     </configuration>
                 </plugin>
+
 
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
@@ -284,6 +286,10 @@
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
                 <version>0.8.13</version>
+                <configuration>
+                    <propertyName>argLine</propertyName>
+                    <skip>${jacoco.skip}</skip>
+                </configuration>
                 <executions>
                     <execution>
                         <id>prepare-agent</id>
@@ -300,6 +306,7 @@
                     </execution>
                 </executions>
             </plugin>
+
             <plugin>
                 <groupId>org.pitest</groupId>
                 <artifactId>pitest-maven</artifactId>
@@ -319,6 +326,7 @@
                     <timestampedReports>false</timestampedReports>
                 </configuration>
             </plugin>
+
 
         </plugins>
     </build>
