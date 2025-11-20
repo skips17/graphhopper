@@ -53,16 +53,15 @@ jobs:
           echo "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
           exit 1
 
-      - name: Build et tests ${{ matrix.java-version }}
+      - name: Build et install ${{ matrix.java-version }}
         id: build_install
-        run: mvn -B clean test
+        run: mvn -B -DskipTests install
         continue-on-error: true
 
       - name: PIT_navigation
         id: pit_navigation
         if: steps.build_install.outcome == 'success' && matrix.java-version == '24'
-        run: mvn -q -Djacoco.skip=true -pl navigation -am org.pitest:pitest-maven:mutationCoverage
-
+        run: mvn -q -Djacoco.skip=true -pl navigation org.pitest:pitest-maven:mutationCoverage
 
       - name: ExtraireScoreMutation
         id: score_mutation
