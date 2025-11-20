@@ -36,9 +36,14 @@
     </licenses>
     <dependencies>
         <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
             <groupId>com.graphhopper</groupId>
             <artifactId>graphhopper-web-api</artifactId>
-            <version>${project.parent.version}</version>
+            <version>${project.parent.version}</version>2
         </dependency>
         <dependency>
             <groupId>com.carrotsearch</groupId>
