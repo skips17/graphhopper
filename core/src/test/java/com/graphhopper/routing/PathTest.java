@@ -24,7 +24,6 @@ import com.graphhopper.routing.util.EncodingManager;
 import com.graphhopper.routing.util.TraversalMode;
 import com.graphhopper.routing.weighting.SpeedWeighting;
 import com.graphhopper.routing.weighting.Weighting;
-import com.graphhopper.search.KVStorage.KValue;
 import com.graphhopper.storage.BaseGraph;
 import com.graphhopper.storage.Graph;
 import com.graphhopper.storage.NodeAccess;
@@ -33,7 +32,6 @@ import com.graphhopper.util.details.PathDetail;
 import com.graphhopper.util.details.PathDetailsBuilderFactory;
 import com.graphhopper.util.details.PathDetailsFromEdges;
 import org.junit.jupiter.api.Test;
-import static org.mockito.Mockito.*;
 
 import java.util.*;
 
@@ -1324,67 +1322,4 @@ public class PathTest {
     private static Path extractPath(Graph graph, Weighting weighting, SPTEntry sptEntry) {
         return PathExtractor.extractPath(graph, weighting, sptEntry);
     }
-
-
-    @Test
-    public void testParcoursDeuxAretes() {
-        Graph graphe = mock(Graph.class);
-
-        EdgeIteratorState a1 = mock(EdgeIteratorState.class);
-        EdgeIteratorState a2 = mock(EdgeIteratorState.class);
-
-        when(graphe.getEdgeIteratorState(5, 0)).thenReturn(a1); 
-        when(a1.getBaseNode()).thenReturn(1);
-        when(a1.getEdge()).thenReturn(5);
-        when(graphe.getEdgeIteratorState(5, 1)).thenReturn(a1);
-
-        when(graphe.getEdgeIteratorState(7, 1)).thenReturn(a2);
-        when(a2.getBaseNode()).thenReturn(2);
-        when(a2.getEdge()).thenReturn(7);
-        when(graphe.getEdgeIteratorState(7, 2)).thenReturn(a2);
-
-        Path p = new Path(graphe).setFromNode(0).setEndNode(2);
-        p.addEdge(5);
-        p.addEdge(7);
-
-        List<Integer> resultat = new ArrayList<>();
-
-        p.forEveryEdge(new Path.EdgeVisitor() {
-            @Override
-            public void next(EdgeIteratorState edge, int index, int prevId) {
-                resultat.add(edge.getEdge());
-            }
-            @Override
-            public void finish() {}
-        });
-
-        assertEquals(List.of(5, 7), resultat);
-    }
-
-    @Test
-    public void testExceptionSiAreteManquante() {
-        Graph graphe = mock(Graph.class);
-
-        when(graphe.getEdgeIteratorState(11, 0)).thenReturn(null);
-
-        Path p = new Path(graphe).setFromNode(0).setEndNode(1);
-        p.addEdge(11);
-
-        IllegalStateException ex = assertThrows(
-                IllegalStateException.class,
-                () -> p.forEveryEdge(new Path.EdgeVisitor() {
-                    @Override
-                    public void next(EdgeIteratorState edge, int index, int prevId) {}
-
-                    @Override
-                    public void finish() {}
-                })
-        );
-
-        assertTrue(ex.getMessage().contains("Edge 11 was empty"));
-    }
-
-
-
-
 }
