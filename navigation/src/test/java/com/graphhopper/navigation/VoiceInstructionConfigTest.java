@@ -1,5 +1,4 @@
 package com.graphhopper.navigation;
-import com.github.javafaker.Faker;
 import com.graphhopper.util.TranslationMap;
 import org.junit.jupiter.api.Test;
 import java.util.Random;
