@@ -37,10 +37,6 @@ jobs:
       - name: Build ${{ matrix.java-version }}
         id: build
         run: mvn -B clean install
-      - name: Debug 
-        run: |
-          echo "===== navigation/pom.xml vu par le CI ====="
-          cat navigation/pom.xml
 
       - name: Rickroll
         if: failure() && matrix.java-version == 24
