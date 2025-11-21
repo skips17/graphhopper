@@ -1,10 +1,9 @@
 package com.graphhopper.navigation;
-
+import com.github.javafaker.Faker;
 import com.graphhopper.util.TranslationMap;
 import org.junit.jupiter.api.Test;
-
+import java.util.Random;
 import java.util.Locale;
-
 import static com.graphhopper.navigation.DistanceUtils.UnitTranslationKey.*;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -213,4 +212,35 @@ public class VoiceInstructionConfigTest {
         assertEquals(expectedSpokenDistance, values.spokenDistance);
         assertEquals(expectedInstruction, values.turnDescription);
     }
+        @Test
+        void TestStreetConditionalDistance() {
+        Faker faker = new Faker(new Random(42));
+        String street = faker.address().streetName();
+
+        var cfg = new ConditionalDistanceVoiceInstructionConfig(
+                DistanceUtils.UnitTranslationKey.IN_LOWER_DISTANCE_PLURAL.metric,
+                trMap, locale,
+                new int[]{400, 200}, new int[]{400, 200});
+
+        var val = cfg.getConfigForDistance(450, "onto " + street, "");
+        assertNotNull(val);
+        assertTrue(val.turnDescription.contains(street));
+        }
+
+        @Test
+        void TestInitialVICBoundary() {
+        var cfg = new InitialVoiceInstructionConfig(
+                DistanceUtils.UnitTranslationKey.FOR_HIGHER_DISTANCE_PLURAL.metric,
+                trMap, locale, 4250, 250, DistanceUtils.Unit.METRIC);
+
+        assertNull(cfg.getConfigForDistance(4200, "turn", ""));
+
+        assertNull(cfg.getConfigForDistance(4250, "turn", ""));
+
+        var v = cfg.getConfigForDistance(4251, "turn", "");
+        assertNotNull(v);
+        assertEquals(4000, v.spokenDistance);              
+        assertEquals("Continue for 4 kilometers", v.turnDescription);
+        }
+
 }
