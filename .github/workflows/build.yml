@@ -75,7 +75,7 @@ jobs:
             echo "Aucun score trouvé. $nouveauScore%"
           else
             ancienScore=$(cat fichierScore.txt)
-            echo "Score précédent: $OLD_SCORE%"
+            echo "Score précédent: $ancienScore%"
             if [ "$nouveauScore" -lt "$ancienScore" ]; then
               echo "Score baissé: $ancienScore% → $nouveauScore%"
               exit 1
