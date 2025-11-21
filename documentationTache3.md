@@ -307,4 +307,6 @@ On enregistre le score en utilisant un fichier pour le garder en mémoire afin d
 
 <img src="mutation/testMutationValide.png" />
 
+<img src="mutation/fichierScoreValide.png" />
+
 
