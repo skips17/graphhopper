@@ -26,7 +26,7 @@ jobs:
             ${{ runner.os }}-maven-
 
       - name: Maven install
-          mvn -B clean install -DargLine=
+        run: mvn -B clean install -DargLine=
 
       - name: Télécharger le score précédent
         if: matrix.java-version == 24
@@ -43,15 +43,14 @@ jobs:
         with:
           java-version: 17
           distribution: temurin
-      
+
       - name: Lancer PIT
         if: matrix.java-version == 24
         id: pitest
         run: |
           mvn -q -DargLine= org.pitest:pitest-maven:mutationCoverage -pl navigation | tee pit.log
-          NEW_SCORE=$(grep "Mutation score" -R navigation/target/pit-reports | grep -o '[0-9]*\.[0-9]*' | head -1)
+          NEW_SCORE=$(grep -o "Mutation score.*" -R navigation/target/pit-reports | grep -o '[0-9]*\.[0-9]*' | head -1)
           echo "nouveau_score=$NEW_SCORE" >> $GITHUB_OUTPUT
-
 
       - name: Comparer scores
         if: matrix.java-version == 24
@@ -62,7 +61,7 @@ jobs:
             OLD=$(cat old-score/mutation-score.txt)
             echo "Ancien: $OLD%"
             echo "Nouveau: $NEW%"
-            if [ "$NEW" -lt "$OLD" ]; then
+            if (( $(echo "$NEW < $OLD" | bc -l) )); then
               echo "Score diminué"
               exit 1
             fi
@@ -81,4 +80,4 @@ jobs:
       - name: Rickroll
         if: failure() && matrix.java-version == 24
         run: |
-          echo " https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+          echo "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
