@@ -1371,7 +1371,7 @@ public class PathTest {
         p.addEdge(11);
 
         IllegalStateException ex = assertThrows(
-                IllegalStateException.clas,
+                IllegalStateException.class,
                 () -> p.forEveryEdge(new Path.EdgeVisitor() {
                     @Override
                     public void next(EdgeIteratorState edge, int index, int prevId) {}
