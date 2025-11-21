@@ -1,5 +1,4 @@
 package com.graphhopper.navigation;
-import org.junit.jupiter.api.Disabled;
 import com.github.javafaker.Faker;
 import com.graphhopper.util.TranslationMap;
 import org.junit.jupiter.api.Test;
@@ -187,7 +186,7 @@ public class VoiceInstructionConfigTest {
 
         assertNull(configMetric.getConfigForDistance(1999, "abbiegen", " dann"));
     }
-    @Disabled
+
     @Test
     public void fixedDistanceInitialVICImperialTest() {
         FixedDistanceVoiceInstructionConfig configImperial = new FixedDistanceVoiceInstructionConfig(IN_HIGHER_DISTANCE_PLURAL.imperial,
@@ -213,7 +212,6 @@ public class VoiceInstructionConfigTest {
         assertEquals(expectedSpokenDistance, values.spokenDistance);
         assertEquals(expectedInstruction, values.turnDescription);
     }
-        @Disabled
         @Test
         void TestStreetConditionalDistance() {
         Faker faker = new Faker(new Random(42));
@@ -228,7 +226,7 @@ public class VoiceInstructionConfigTest {
         assertNotNull(val);
         assertTrue(val.turnDescription.contains(street));
         }
-        @Disabled 
+
         @Test
         void TestInitialVICBoundary() {
         var cfg = new InitialVoiceInstructionConfig(
