@@ -162,7 +162,7 @@ Résultat attendu :
 
 **Validation**
 
-<img src="graphhopper/mutation/buildsucces.png" />
+<img src="mutation/buildsucces.png" />
 
 
 ---
@@ -181,7 +181,7 @@ Résultat attendu :
 
 **Validation**
 
-<img src="graphhopper/mutation/Rickroll.png" />
+<img src="mutation/Rickroll.png" />
 
 ---
 
@@ -204,7 +204,7 @@ Résultat attendu :
 
 **Validation**
 
-<img src="graphhopper/mutation/fichierScore.png" />
+<img src="mutation/fichierScore.png" />
 
 
 ---
@@ -241,7 +241,7 @@ La variable de sortie score est exposée via GITHUB_OUTPUT pour être utilisée 
 
 **Validation**
 
-<img src="graphhopper/mutation/mutationValide.png" />
+<img src="mutation/mutationValide.png" />
 
 
 ---
@@ -281,11 +281,11 @@ La variable de sortie score est exposée via GITHUB_OUTPUT pour être utilisée 
 
 Cas avec score plus bas
 
-<img src="graphhopper/mutation/casdeTestScorePlusBas.png" />
+<img src="mutation/casdeTestScorePlusBas.png" />
 
 Cas avec score maintenu
 
-<img src="graphhopper/mutation/casdeTestScoreMaintenu.png" />
+<img src="mutation/casdeTestScoreMaintenu.png" />
 
 ---
 
@@ -305,6 +305,6 @@ On enregistre le score en utilisant un fichier pour le garder en mémoire afin d
 
 **Validation**
 
-<img src="graphhopper/mutation/testMutationValide.png" />
+<img src="mutation/testMutationValide.png" />
 
 
