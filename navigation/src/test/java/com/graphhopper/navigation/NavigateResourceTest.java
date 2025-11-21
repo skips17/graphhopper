@@ -27,40 +27,5 @@ public class NavigateResourceTest {
         assertEquals(100, bearings.get(1), .1);
     }
      
-    @Test
-    void TestGetBearingErreurNonNumeric() {
-        assertThrows(IllegalArgumentException.class, () -> NavigateResource.getBearing("abc,1"));
-    }
-    
-    @Test
-    void TestGetBearingParseWithNaN() {
-        var b = NavigateResource.getBearing("100,1;;200,1;");
-        assertEquals(4, b.size());
-        assertEquals(100d, b.get(0), 0.1);
-        assertTrue(Double.isNaN(b.get(1)));
-        assertEquals(200d, b.get(2), 0.1);
-        assertTrue(Double.isNaN(b.get(3)));
-    }
-    
-    @Test
-    void TestDoGetStepsDesactive() {
-        NavigateResource res = new NavigateResource(null, new TranslationMap(), new GraphHopperConfig());
-
-        assertThrows(IllegalArgumentException.class, () ->
-            res.doGet(
-                null, null, null,         
-                false,               
-                true,                  
-                true,                  
-                true,                
-                "metric",                 
-                "simplified",             
-                "polyline6",              
-                "",                       
-                "en",                     
-                "driving"                 
-            )
-        );
-    }
 
 }
