@@ -62,6 +62,7 @@ jobs:
             echo "Aucun score trouvé."
             exit 1
           fi
+          echo "Nouveau score: $nouveauScore%"
           echo "score=$nouveauScore" >> $GITHUB_OUTPUT
 
       - name: Comparaison des scores
@@ -70,6 +71,11 @@ jobs:
         run: |
           nouveauScore=${{ steps.pitest.outputs.score }}
           echo "Score: $nouveauScore%"
+          if [ ! -f fichierScore.txt ]; then
+            echo "Aucun score trouvé. $nouveauScore%"
+          else
+            ancienScore=$(cat fichierScore.txt)
+            echo "Score précédent: $OLD_SCORE%"
             if [ "$nouveauScore" -lt "$ancienScore" ]; then
               echo "Score baissé: $ancienScore% → $nouveauScore%"
               exit 1
