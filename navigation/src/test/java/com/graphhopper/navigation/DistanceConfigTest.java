@@ -43,7 +43,7 @@ public class DistanceConfigTest {
     }
     @Test
     void TestConfigImperialCar() {
-        Distanceonfig dc = new DistanceConfig(DistanceUtils.Unit.IMPERIAL, null, null, "driving");
+        DistanceConfig dc = new DistanceConfig(DistanceUtils.Unit.IMPERIAL, null, null, "driving");
         assertEquals(4, dc.voiceInstructions.size());
         assertTrue(dc.voiceInstructions.get(0) instanceof InitialVoiceInstructionConfig);
         assertTrue(dc.voiceInstructions.get(1) instanceof FixedDistanceVoiceInstructionConfig);
