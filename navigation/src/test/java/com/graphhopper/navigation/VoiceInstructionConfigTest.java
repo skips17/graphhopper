@@ -188,4 +188,29 @@ public class VoiceInstructionConfigTest {
         assertNull(configMetric.getConfigForDistance(1999, "abbiegen", " dann"));
     }
 
+    @Test
+    public void fixedDistanceInitialVICImperialTest() {
+        FixedDistanceVoiceInstructionConfig configImperial = new FixedDistanceVoiceInstructionConfig(IN_HIGHER_DISTANCE_PLURAL.imperial,
+                trMap, locale, 2000, 2);
+
+        compareVoiceInstructionValues(
+                2000,
+                "In 2 miles turn",
+                configImperial.getConfigForDistance(2100, "turn", " then")
+        );
+
+        compareVoiceInstructionValues(
+                2000,
+                "In 2 miles turn",
+                configImperial.getConfigForDistance(2000, "turn", " then")
+        );
+        assertNull(configImperial.getConfigForDistance(1999, "turn", " then"));
+    }
+
+    private void compareVoiceInstructionValues(int expectedSpokenDistance,
+                                               String expectedInstruction,
+                                               VoiceInstructionConfig.VoiceInstructionValue values) {
+        assertEquals(expectedSpokenDistance, values.spokenDistance);
+        assertEquals(expectedInstruction, values.turnDescription);
+    }
 }
