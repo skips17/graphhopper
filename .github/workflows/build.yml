@@ -1,22 +1,18 @@
 name: Build and Test
 on: push
-
 jobs:
   build:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
-        java-version: [24, 25-ea]
-
+        java-version: [ 24, 25-ea ]
     steps:
       - uses: actions/checkout@v4
-
       - uses: actions/setup-java@v4
         with:
           java-version: ${{ matrix.java-version }}
           distribution: temurin
-
       - name: Cache Maven artifacts
         uses: actions/cache@v4
         with:
@@ -24,60 +20,70 @@ jobs:
           key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
           restore-keys: |
             ${{ runner.os }}-maven-
-
-      - name: Maven install
-        run: mvn -B clean install -DargLine=
+      - name: Cache node
+        uses: actions/cache@v4
+        with:
+          path: web-bundle/node
+          key: ${{ runner.os }}-node-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os}}-node-
+      - name: Cache node_modules
+        uses: actions/cache@v4
+        with:
+          path: web-bundle/node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('**/pom.xml', '**/package.json') }}
+          restore-keys: |
+            ${{ runner.os}}-node_modules-
+      - name: Build ${{ matrix.java-version }}
+        id: build
+        run: mvn -B clean install
+        
+      - name: Rickroll
+        if: failure() && matrix.java-version == 24
+        run: |
+          echo "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
 
       - name: Télécharger le score précédent
         if: matrix.java-version == 24
         uses: dawidd6/action-download-artifact@v3
         continue-on-error: true
         with:
-          name: mutation-score
+          name: fichierScore
           workflow: build.yml
-          path: ./old-score
 
-      - name: Set up Java 17 for PIT
-        if: matrix.java-version == 24
-        uses: actions/setup-java@v4
-        with:
-          java-version: 17
-          distribution: temurin
-
-      - name: Lancer PIT
-        if: matrix.java-version == 24
+      - name: Tests de mutation
         id: pitest
-        run: |
-          mvn -q -DargLine= org.pitest:pitest-maven:mutationCoverage -pl navigation | tee pit.log
-          NEW_SCORE=$(grep -o "Mutation score.*" -R navigation/target/pit-reports | grep -o '[0-9]*\.[0-9]*' | head -1)
-          echo "nouveau_score=$NEW_SCORE" >> $GITHUB_OUTPUT
-
-      - name: Comparer scores
         if: matrix.java-version == 24
-        id: compare
         run: |
-          NEW=${{ steps.pitest.outputs.nouveau_score }}
-          if [ -f old-score/mutation-score.txt ]; then
-            OLD=$(cat old-score/mutation-score.txt)
-            echo "Ancien: $OLD%"
-            echo "Nouveau: $NEW%"
-            if (( $(echo "$NEW < $OLD" | bc -l) )); then
-              echo "Score diminué"
-              exit 1
-            fi
-          else
-            echo "Pas de score précédent"
-          fi
-          echo "$NEW" > mutation-score.txt
+          mvn org.pitest:pitest-maven:mutationCoverage -pl navigation | tee pitest.log
 
-      - name: Sauvegarder nouveau score
+          nouveauScore=$(grep "mutations Killed" pitest.log | grep -o '[0-9]*%' | tr -d '%')
+          if [ -z "$nouveauScore" ]; then
+            echo "Aucun score trouvé."
+            exit 1
+          fi
+          echo "score=$nouveauScore" >> $GITHUB_OUTPUT
+
+      - name: Comparaison des scores
+        id: compare
+        if: matrix.java-version == 24
+        run: |
+          nouveauScore=${{ steps.pitest.outputs.score }}
+          echo "Score: $nouveauScore%"
+            if [ "$nouveauScore" -lt "$ancienScore" ]; then
+              echo "Score baissé: $ancienScore% → $nouveauScore%"
+              exit 1
+            else
+              echo " $ancienScore% → $nouveauScore%"
+            fi
+          fi
+          echo "$nouveauScore" > fichierScore.txt
+
+      - name: enregistrement du score
         if: success() && matrix.java-version == 24
         uses: actions/upload-artifact@v4
         with:
-          name: mutation-score
-          path: mutation-score.txt
+          name: fichierScore
+          path: fichierScore.txt
 
-      - name: Rickroll
-        if: failure() && matrix.java-version == 24
-        run: |
-          echo "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+
