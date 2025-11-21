@@ -241,7 +241,7 @@ La variable de sortie score est exposée via GITHUB_OUTPUT pour être utilisée 
 
 **Validation**
 
-<img src="mutation/mutationValide.png" />
+<img src="mutation/testMutationValide.png" />
 
 
 ---
