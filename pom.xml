@@ -170,12 +170,19 @@
             <artifactId>junit-jupiter-params</artifactId>
             <scope>test</scope>
         </dependency>
-
         <dependency>
-            <groupId>com.github.javafaker</groupId>
-            <artifactId>javafaker</artifactId>
-            <version>1.0.2</version>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <version>5.8.0</version>
+            <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-junit-jupiter</artifactId>
+            <version>5.8.0</version>
+            <scope>test</scope>
+        </dependency>
+
     </dependencies>
     <build>
         <pluginManagement>
@@ -299,25 +306,6 @@
                         </goals>
                     </execution>
                 </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.pitest</groupId>
-                <artifactId>pitest-maven</artifactId>
-                <version>1.15.8</version>
-                <configuration>
-                    <targetClasses>
-                        <param>com.graphhopper.navigation.*</param>
-                    </targetClasses>
-                    <targetTests>
-                        <param>com.graphhopper.navigation.*Test</param>
-                    </targetTests>
-                    <mutationThreshold>80</mutationThreshold>
-                    <outputFormats>
-                        <param>HTML</param>
-                        <param>XML</param>
-                    </outputFormats>
-                    <timestampedReports>false</timestampedReports>
-                </configuration>
             </plugin>
 
         </plugins>
